@@ -69,7 +69,7 @@ struct ContentView: View {
                     Spacer()
                 }
                 .padding(30)
-                .frame(maxWidth: 350, maxHeight: 700)
+                .frame(maxWidth: 350, maxHeight: 400)
                 .background(.ultraThinMaterial)
                 .shadow(radius: 10)
                 .cornerRadius(25)
