@@ -1,9 +1,0 @@
-# Xcode
-DerivedData/
-*.xcworkspace
-*.xcuserstate
-*.xcuserdata
-build/
-
-# Clé API privée
-Keys.plist
