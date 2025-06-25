@@ -19,47 +19,59 @@ struct ContentView: View {
     @State private var errorMessage: String = ""
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("🌤️ Météo")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+        ZStack {
+            // 🔹 Image de fond
+            Image("FondColline")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
 
-            TextField("Entrez une ville", text: $city)
+            // 🔹 Le contenu "flottant" au-dessus
+            VStack(spacing: 20) {
+                Text("🌤️ Météo")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+
+                TextField("Entrez une ville", text: $city)
+                    .padding()
+                    .background(Color(.secondarySystemBackground))
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+
+                Button("Rechercher") {
+                    fetchWeather(for: city)
+                }
+                .font(.headline)
                 .padding()
-                .background(Color(.secondarySystemBackground))
+                .frame(maxWidth: .infinity)
+                .background(Color.blue)
+                .foregroundColor(.white)
                 .cornerRadius(10)
                 .padding(.horizontal)
 
-            Button("Rechercher") {
-                fetchWeather(for: city)
+                if !weatherDescription.isEmpty {
+                    Text(weatherDescription)
+                        .font(.title2)
+
+                    Text("\(temperature)°C")
+                        .font(.largeTitle)
+                        .bold()
+                }
+
+                if !errorMessage.isEmpty {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                
+                Spacer()
             }
-            .font(.headline)
             .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            .padding(.horizontal)
-
-            if !weatherDescription.isEmpty {
-                Text(weatherDescription)
-                    .font(.title2)
-
-                Text("\(temperature)°C")
-                    .font(.largeTitle)
-                    .bold()
-            }
-
-            if !errorMessage.isEmpty {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-            }
-            
-            Spacer()
+            .background(.ultraThinMaterial) // effet flou / verre dépoli
+            .cornerRadius(25)
+            .padding()
         }
-        .padding()
     }
     
     func fetchWeather(for city: String) {
