@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var weatherDescription: String = ""
     @State private var temperature: String = ""
     @State private var errorMessage: String = ""
+    @State private var showWindow = false
 
     var body: some View {
         ZStack {
@@ -27,52 +28,62 @@ struct ContentView: View {
                 .ignoresSafeArea()
 
             // 🔹 Le contenu "flottant" au-dessus
-            VStack(spacing: 20) {
-                Text("🌤️ Météo")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-
-                TextField("Entrez une ville", text: $city)
-                    .padding()
-                    .background(Color.gray.opacity(0.3))
-                    .cornerRadius(10)
-                    .foregroundColor(.white)
-
-                Button("Rechercher") {
-                    fetchWeather(for: city)
-                }
-                .font(.headline)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.gray.opacity(0.3))
-                .foregroundColor(.white)
-                .cornerRadius(10)
-
-                if !weatherDescription.isEmpty {
-                    Text(weatherDescription)
-                        .font(.title2)
-
-                    Text("\(temperature)°C")
+            if showWindow {
+                VStack(spacing: 20) {
+                    Text("🌤️ Météo")
                         .font(.largeTitle)
-                        .bold()
-                }
+                        .fontWeight(.bold)
 
-                if !errorMessage.isEmpty {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
+                    TextField("Entrez une ville", text: $city)
+                        .padding()
+                        .background(Color.gray.opacity(0.3))
+                        .cornerRadius(10)
+                        .foregroundColor(.white)
+
+                    Button("Rechercher") {
+                        fetchWeather(for: city)
+                    }
+                    .font(.headline)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.gray.opacity(0.3))
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+
+                    if !weatherDescription.isEmpty {
+                        Text(weatherDescription)
+                            .font(.title2)
+
+                        Text("\(temperature)°C")
+                            .font(.largeTitle)
+                            .bold()
+                    }
+
+                    if !errorMessage.isEmpty {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
+                .padding(30)
+                .frame(maxWidth: 350, maxHeight: 700)
+                .background(.ultraThinMaterial)
+                .shadow(radius: 10)
+                .cornerRadius(25)
+                .padding(.horizontal, 20)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
-            .padding(30)
-            .frame(maxWidth: 350, maxHeight: 700)
-            .background(.ultraThinMaterial)
-            .cornerRadius(25)
-            .padding(.horizontal, 100)
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 2)) {
+                showWindow = true
+            }
         }
     }
+    
     
     func fetchWeather(for city: String) {
         let cityEncoded = city.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? city
