@@ -7,3 +7,4 @@ build/
 
 # Clé API privée
 Keys.plist
+.DS_Store
