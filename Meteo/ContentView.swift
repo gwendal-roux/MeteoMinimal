@@ -34,9 +34,9 @@ struct ContentView: View {
 
                 TextField("Entrez une ville", text: $city)
                     .padding()
-                    .background(Color(.secondarySystemBackground))
+                    .background(Color.gray.opacity(0.3))
                     .cornerRadius(10)
-                    .padding(.horizontal)
+                    .foregroundColor(.white)
 
                 Button("Rechercher") {
                     fetchWeather(for: city)
@@ -44,10 +44,9 @@ struct ContentView: View {
                 .font(.headline)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(Color.blue)
+                .background(Color.gray.opacity(0.3))
                 .foregroundColor(.white)
                 .cornerRadius(10)
-                .padding(.horizontal)
 
                 if !weatherDescription.isEmpty {
                     Text(weatherDescription)
@@ -67,10 +66,11 @@ struct ContentView: View {
                 
                 Spacer()
             }
-            .padding()
-            .background(.ultraThinMaterial) // effet flou / verre dépoli
+            .padding(30)
+            .frame(maxWidth: 350, maxHeight: 700)
+            .background(.ultraThinMaterial)
             .cornerRadius(25)
-            .padding()
+            .padding(.horizontal, 100)
         }
     }
     
